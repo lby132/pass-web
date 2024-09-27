@@ -1,5 +1,6 @@
 package com.fastcampus.pass.repository.pass;
 
+import com.fastcampus.pass.repository.BaseEntity;
 import com.fastcampus.pass.repository.packaze.PackageEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,10 +14,10 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name = "pass")
-public class PassEntity {
+public class PassEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 생성을 DB에 위임합니다. (AUTO_INCREMENT)
     private Integer passSeq;
     private Integer packageSeq;
     private String userId;

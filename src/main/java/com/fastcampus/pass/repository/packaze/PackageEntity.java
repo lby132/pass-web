@@ -15,4 +15,8 @@ public class PackageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer packageSeq;
+
+    private String packageName;
+    private Integer count;
+    private Integer period;
 }
