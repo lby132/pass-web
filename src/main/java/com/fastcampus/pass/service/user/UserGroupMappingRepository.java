@@ -1,6 +1,5 @@
 package com.fastcampus.pass.service.user;
 
-import com.fastcampus.pass.repository.user.UserGroupMappingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -3,15 +3,16 @@ package com.fastcampus.pass.controller.admin;
 
 import com.fastcampus.pass.service.packaze.PackageService;
 import com.fastcampus.pass.service.pass.BulkPassService;
+import com.fastcampus.pass.service.statistics.StatisticsService;
 import com.fastcampus.pass.service.user.UserGroupMappingService;
+import com.fastcampus.pass.util.LocalDateTimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +22,16 @@ public class AdminViewController {
     private final BulkPassService bulkPassService;
     private final PackageService packageService;
     private final UserGroupMappingService userGroupMappingService;
+    private final StatisticsService statisticsService;
+
+    @GetMapping
+    public ModelAndView home(ModelAndView modelAndView, @RequestParam("to") String toString) {
+        LocalDateTime to = LocalDateTimeUtils.parseDate(toString);
+
+        modelAndView.addObject("chartData", statisticsService.makeChartData(to));
+        modelAndView.setViewName("admin/index");
+        return modelAndView;
+    }
 
     @GetMapping("/bulk-pass")
     public ModelAndView registerBulkPass(ModelAndView modelAndView) {
@@ -39,7 +50,6 @@ public class AdminViewController {
 
     @PostMapping("/bulk-pass")
     public String addBulkPass(@ModelAttribute("request") BulkPassRequest request, Model model) {
-        // bulk pass 를 생성
         bulkPassService.addBulkPass(request);
         return "redirect:/admin/bulk-pass";
     }
